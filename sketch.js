@@ -1,23 +1,28 @@
 let exampleShader;
 
-// load in the shader
+const numCircles = 100;
+
 function preload() {
+  // load in the shader
   exampleShader = loadShader("example.vert", "example.frag");
 }
 
 function setup() {
   createCanvas(600, 600, WEBGL);
-
-  // tell p5 to use the shader
   shader(exampleShader);
-
   noStroke();
+
+  const circles = [];
+
+  for (let i = 0; i < numCircles; i++) {
+    circles.push(random(), random(), random(0.05, 0.01));
+  }
+
+  exampleShader.setUniform("circles", circles);
 }
 
 function draw() {
-  clear();
   exampleShader.setUniform("millis", millis());
-  // run shader
-  // rect(0, 0, width, height);
-  ellipse(0, 0, width, height, 150);
+  // Run shader
+  rect(-width / 2, -height / 2, width);
 }
